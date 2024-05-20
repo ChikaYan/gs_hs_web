@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html><head lang="en"><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+
+    <title>Gaussian Head & Shoulders</title>
+
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!-- <meta property="og:image" content="https://d2nerf.github.io/img/title_card.png"> -->
+    <meta property="og:image:type" content="image/png">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
+    <meta property="og:type" content="website">
+    <!-- <meta property="og:url" content="https://github.com/d2nerf/d2nerf"> -->
+    <meta property="og:title" content="Gaussian Head & Shoulders: High Fidelity Neural Upper Body Avatars with Anchor Gaussian Guided Texture Warping">
+    <meta property="og:description" content="The ability to reconstruct realistic and controllable upper body avatars from casual monocular videos is critical for various applications in communication and entertainment. By equipping the most recent 3D Gaussian Splatting representation with head 3D morphable models (3DMM), existing methods manage to create head avatars with high fidelity. However, most existing methods only reconstruct a head without the body, substantially limiting their application scenarios. We found that naively applying Gaussians to model the clothed chest and shoulders tends to result in blurry reconstruction and noisy floaters under novel poses. This is because of the fundamental limitation of Gaussians and point clouds -- each Gaussian or point can only have a single directional radiance without spatial variance, therefore an unnecessarily large number of them is required to represent complicated spatially varying texture, even for simple geometry. In contrast, we propose to model the body part with a neural texture that consists of coarse and pose-dependent fine colors. To properly render the body texture for each view and pose without accurate geometry nor UV mapping, we optimize another sparse set of Gaussians as anchors that constrain the neural warping field that maps image plane coordinates to the texture space. We demonstrate that Gaussian Head & Shoulders can fit the high-frequency details on the clothed upper body with high fidelity and potentially improve the accuracy and fidelity of the head region. We evaluate our method with casual phone-captured and internet videos and show our method archives superior reconstruction quality and robustness in both self and cross reenactment tasks. To fully utilize the efficient rendering speed of Gaussian splatting, we additionally propose an accelerated inference method of our trained model without Multi-Layer Perceptron (MLP) queries and reach a stable rendering speed of around 130 FPS for any subjects.">
+
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Gaussian Head & Shoulders: High Fidelity Neural Upper Body Avatars with Anchor Gaussian Guided Texture Warping">
+    <meta name="twitter:description" content="The ability to reconstruct realistic and controllable upper body avatars from casual monocular videos is critical for various applications in communication and entertainment. By equipping the most recent 3D Gaussian Splatting representation with head 3D morphable models (3DMM), existing methods manage to create head avatars with high fidelity. However, most existing methods only reconstruct a head without the body, substantially limiting their application scenarios. We found that naively applying Gaussians to model the clothed chest and shoulders tends to result in blurry reconstruction and noisy floaters under novel poses. This is because of the fundamental limitation of Gaussians and point clouds -- each Gaussian or point can only have a single directional radiance without spatial variance, therefore an unnecessarily large number of them is required to represent complicated spatially varying texture, even for simple geometry. In contrast, we propose to model the body part with a neural texture that consists of coarse and pose-dependent fine colors. To properly render the body texture for each view and pose without accurate geometry nor UV mapping, we optimize another sparse set of Gaussians as anchors that constrain the neural warping field that maps image plane coordinates to the texture space. We demonstrate that Gaussian Head & Shoulders can fit the high-frequency details on the clothed upper body with high fidelity and potentially improve the accuracy and fidelity of the head region. We evaluate our method with casual phone-captured and internet videos and show our method archives superior reconstruction quality and robustness in both self and cross reenactment tasks. To fully utilize the efficient rendering speed of Gaussian splatting, we additionally propose an accelerated inference method of our trained model without Multi-Layer Perceptron (MLP) queries and reach a stable rendering speed of around 130 FPS for any subjects.">
+    <!-- <meta name="twitter:image" content="https://d2nerf.github.io/img/title_card.png"> -->
+
+
+    <!-- mirror: F0%9F%AA%9E&lt -->
+    <link rel="icon" href="data:image/svg+xml,&lt;svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22&gt;&lt;text y=%22.9em%22 font-size=%2290%22&gt;%E2%9C%A8&lt;/text&gt;&lt;/svg&gt;">
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+    <link rel="stylesheet" href="css/font-awesome.min.css">
+    <link rel="stylesheet" href="css/codemirror.min.css">
+    <link rel="stylesheet" href="css/app.css">
+
+    <script src="js/jquery.min.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+    <script src="js/codemirror.min.js"></script>
+    <script src="js/clipboard.min.js"></script>
+    <script src="js/video_comparison.js"></script>
+    <script src="js/app.js"></script>
+</head>
+
+<body>
+    <div class="container" id="header" style="text-align: center; margin: auto;">
+        <div class="row" id="title-row" style="max-width: 100%; margin: 0 auto; display: inline-block">
+            <h2 class="col-md-12 text-center" id="title">
+                <!-- <b>D<sup>2</sup>NeRF</b>: Self-Supervised Decoupling of <br>Dynamic and
+                Static Objects from a Monocular Video<br> -->
+                <b>Gaussian Head & Shoulders</b>: High Fidelity Neural Upper Body Avatars with Anchor Gaussian Guided Texture Warping
+                <!-- <small>
+                    NeurIPS 2022
+                </small> -->
+            </h2>
+        </div>
+        <div class="row" id="author-row" style="margin:0 auto;">
+            <div class="col-md-12 text-center" style="display: table; margin:0 auto">
+                <table class="author-table" id="author-table">
+                    <tr>
+                        <td>
+                            <a style="text-decoration:none" href="https://chikayan.github.io/">
+                                Tianhao Wu
+                            </a>
+                            <br>University of Cambridge
+                        </td>
+                        <td>
+                            <a style="text-decoration:none" href="https://jingyang2017.github.io/">
+                                Jing Yang
+                            </a>
+                            <br>University of Cambridge
+                        </td>
+                        <td>
+                            <a style="text-decoration:none" href="https://zhilinguo.github.io/">
+                                Zhilin Guo
+                            </a>
+                            <br>University of Cambridge
+                        </td>
+                    </td>
+                </tr>
+                <tr>
+                        <td>
+                            <a style="text-decoration:none" href="https://jingyiwan.com/">
+                                Jingyi Wan
+                            </a>
+                            <!-- <br>University of Cambridge -->
+                        </td>
+                        <td>
+                            <a style="text-decoration:none" href="https://www.cl.cam.ac.uk/~fz261/">
+                                Fangcheng Zhong
+                            </a>
+                            <br>University of Cambridge
+                        </td>
+                        <td>
+                            <a style="text-decoration:none" href="https://www.cl.cam.ac.uk/~aco41/">
+                                Cengiz Oztireli
+                            </a>
+                            <br>Google Research
+                            <br>University of Cambridge
+                        </td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+    </div>
+    <script>
+        document.getElementById('author-row').style.maxWidth = document.getElementById("title-row").clientWidth + 'px';
+    </script>
+    <div class="container" id="main">
+        <div class="row">
+
+            <table width="100%">
+                <image src="img/teaser.png" class="img-responsive" alt="overview" width="80%" style="margin:auto;"></image>
+            </table>
+                <div class="col-md-4 col-md-offset-4 text-center">
+                    <ul class="nav nav-pills nav-justified">
+                        <!-- <li>
+                            <a href="https://arxiv.org/abs/2303.10083">
+                            <img src="./img/paper_icon.png" height="90px">
+                                <h4><strong>Paper (arixv)</strong></h4>
+                            </a>
+                        </li>  -->
+                        <!-- <li>
+                            <a href="">
+                            <img src="./img/data_icon.webp" height="90px">
+                                <h4><strong>Data</strong></h4>
+                            </a>
+                        </li> -->
+                        <!-- <li>
+                            <a href="">
+                            <img src="./img/github_icon.svg" height="90px">
+                                <h4><strong>Code</strong></h4>
+                                Coming Soon
+                            </a>
+                        </li> -->
+                        <!-- <li>
+                            <a href="">
+                            <img src="./img/youtube_icon.png" height="90px">
+                                <h4><strong>Video</strong></h4>
+                            </a>
+                        </li>-->
+                    </ul>
+                </div>
+                
+        </div>
+
+        
+
+        <div class="row">
+            <div class="col-md-8 col-md-offset-2">
+                <div class="video-compare-container" id="compare1Div">
+                    <video class="video" id="compare1" loop playsinline controls muted src="video/compare1.mp4" onplay="resizeAndPlay(this)"></video>
+                    
+                    <canvas height=0 class="videoMerge" id="compare1Merge"></canvas>
+                </div>
+                <div class="video-compare-container" id="compare2Div">
+                    <video class="video" id="compare2" loop playsinline controls muted src="video/compare2.mp4" onplay="resizeAndPlay(this)"></video>
+                    
+                    <canvas height=0 class="videoMerge" id="compare2Merge"></canvas>
+                </div>
+                <div class="video-compare-container" id="compare3Div">
+                    <video class="video" id="compare3" loop playsinline controls muted src="video/compare3.mp4" onplay="resizeAndPlay(this)"></video>
+                    
+                    <canvas height=0 class="videoMerge" id="compare3Merge"></canvas>
+                </div>
+                <!-- <div class="video-compare-container" id="zhilinDiv">
+                    <video class="video" id="zhilin" loop playsinline controls muted src="video/compare_self_zhilin.mp4" onplay="resizeAndPlay(this)"></video>
+                    <canvas height=0 class="videoMerge" id="zhilinMerge"></canvas>
+                </div> -->
+			</div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-8 col-md-offset-2">
+                <h3>
+                    Abstract
+                </h3>
+                <p class="text-justify">
+                    The ability to reconstruct realistic and controllable upper body avatars from casual monocular videos is critical for various applications in communication and entertainment. By equipping the most recent 3D Gaussian Splatting representation with head 3D morphable models (3DMM), existing methods manage to create head avatars with high fidelity. However, most existing methods only reconstruct a head without the body, substantially limiting their application scenarios. We found that naively applying Gaussians to model the clothed chest and shoulders tends to result in blurry reconstruction and noisy floaters under novel poses. This is because of the fundamental limitation of Gaussians and point clouds -- each Gaussian or point can only have a single directional radiance without spatial variance, therefore an unnecessarily large number of them is required to represent complicated spatially varying texture, even for simple geometry. In contrast, we propose to model the body part with a neural texture that consists of coarse and pose-dependent fine colors. To properly render the body texture for each view and pose without accurate geometry nor UV mapping, we optimize another sparse set of Gaussians as anchors that constrain the neural warping field that maps image plane coordinates to the texture space. We demonstrate that Gaussian Head & Shoulders can fit the high-frequency details on the clothed upper body with high fidelity and potentially improve the accuracy and fidelity of the head region. We evaluate our method with casual phone-captured and internet videos and show our method archives superior reconstruction quality and robustness in both self and cross reenactment tasks. To fully utilize the efficient rendering speed of Gaussian splatting, we additionally propose an accelerated inference method of our trained model without Multi-Layer Perceptron (MLP) queries and reach a stable rendering speed of around 130 FPS for any subjects.
+                </p>
+
+                <image src="img/method.png" class="img-responsive" alt="overview" width="100%" style="max-height: 450px;margin:auto;">
+
+
+                <h3>
+                    Teaser Video
+                </h3>
+                
+                <table width="100%">
+                    <div>
+                        <video id="editing-materials" width="100%" playsinline controls style="padding-top: 10px; clip-path: inset(1px 1px);">
+                            <source src="video/Teaser Video.mp4" type="video/mp4" />
+                        </video>
+                    </div>
+                </table>
+
+
+            </div>
+        </div>
+
+
+
+
+
+        <div class="row">
+            <div class="col-md-8 col-md-offset-2">
+
+                <h3>
+                    Additional Results
+                </h3>
+
+                
+                <table width="100%">
+                    <div>
+                        <video id="editing-materials" width="100%" playsinline muted controls style="padding-top: 10px; clip-path: inset(1px 1px);">
+                            <source src="video/Self-Reenact 1.mp4" type="video/mp4" />
+                        </video>
+                    </div>
+                </table>
+                <table width="100%">
+                    <div>
+                        <video id="editing-materials" width="100%" playsinline muted controls style="padding-top: 10px; clip-path: inset(1px 1px);">
+                            <source src="video/Self-Reenact 2.mp4" type="video/mp4" />
+                        </video>
+                    </div>
+                </table>
+                <table width="100%">
+                    <div>
+                        <video id="editing-materials" width="100%" playsinline muted controls style="padding-top: 10px; clip-path: inset(1px 1px);">
+                            <source src="video/Cross-Reenact 1.mp4" type="video/mp4" />
+                        </video>
+                    </div>
+                </table>
+                <table width="100%">
+                    <div>
+                        <video id="editing-materials" width="100%" playsinline muted controls style="padding-top: 10px; clip-path: inset(1px 1px);">
+                            <source src="video/Cross-Reenact 2.mp4" type="video/mp4" />
+                        </video>
+                    </div>
+                </table>
+
+            </div>
+        </div>
+
+
+        <!-- <div class="row">
+            <div class="col-md-8 col-md-offset-2">
+                <div class="video-compare-container" id="waterDiv">
+                    <video class="video" id="water" loop playsinline autoPlay muted src="video/vrig_vrig_water_pour.mp4" onplay="resizeAndPlay(this)"></video>
+                    
+                    <canvas height=0 class="videoMerge" id="waterMerge"></canvas>
+                </div>
+			</div>
+        </div> -->
+
+
+
+
+
+
+
+        <div class="row">
+            <div class="col-md-8 col-md-offset-2">
+                <h3>
+                    Acknowledgements
+                </h3>
+                <p class="text-justify">
+                The website template was borrowed from <a href="https://dorverbin.github.io/refnerf/">Ref-NeRF</a>.
+                </p>
+            </div>
+        </div>
+    </div>
+
+
+</body></html>
